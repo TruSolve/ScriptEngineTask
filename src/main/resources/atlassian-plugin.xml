@@ -1,0 +1,17 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+	<plugin-info>
+		<description>${project.description}</description>
+		<version>${project.version}</version>
+		<vendor name="${project.organization.name}" url="${project.organization.url}" />
+		<param name="plugin-icon">images/pluginLogo.png</param>
+		<param name="plugin-logo">images/pluginLogo.png</param>
+	</plugin-info>
+
+	<taskType key="scriptHostTask" name="ScriptHost Task" class="com.trusolve.atlassian.bamboo.plugins.scripthost.tasks.ScripthostTask">
+		<description>Executes JSR223 scripts in the context of the Task/Build.</description>
+		<configuration class="com.trusolve.atlassian.bamboo.plugins.scripthost.tasks.ScripthostTaskConfigurator" />
+		<resource type="freemarker" name="edit" location="templates/buildProcessor/scripthostTaskEdit.ftl" />
+		<resource type="freemarker" name="view" location="templates/buildProcessor/cripthostTaskView.ftl" />
+		<resource type="download" name="icon" location="images/pluginLogo.png" />
+	</taskType>
+</atlassian-plugin>
