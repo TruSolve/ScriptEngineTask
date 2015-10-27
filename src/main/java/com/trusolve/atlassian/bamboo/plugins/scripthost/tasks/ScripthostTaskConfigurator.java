@@ -32,12 +32,17 @@ import com.google.common.collect.Lists;
 
 public class ScripthostTaskConfigurator extends AbstractTaskConfigurator
 {
-	public static final String SCRIPTHOST_SCRIPTBODY = "com.trusolve.scripthostTask.scriptbody";
-	public static final String SCRIPTHOST_SCRIPTTYPE = "com.trusolve.scripthostTask.scripttype";
+	public static final String SCRIPTHOST_SCRIPTBODY = "scriptbody";
+	public static final String SCRIPTHOST_SCRIPTTYPE = "scripttype";
+	public static final String SCRIPTHOST_SCRIPTLOCATION = "scriptlocation";
+	public static final String SCRIPTHOST_SCRIPT = "script";
 
     private static final Set<String> FIELDS = ImmutableSet.of(
     		SCRIPTHOST_SCRIPTTYPE,
-    		SCRIPTHOST_SCRIPTBODY);
+    		SCRIPTHOST_SCRIPTBODY,
+    		SCRIPTHOST_SCRIPTLOCATION,
+    		SCRIPTHOST_SCRIPT
+    );
     
     
     @Override
