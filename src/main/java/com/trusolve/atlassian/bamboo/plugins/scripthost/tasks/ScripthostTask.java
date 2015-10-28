@@ -40,8 +40,37 @@ import com.atlassian.bamboo.variable.VariableDefinitionContext;
 
 public class ScripthostTask implements CommonTaskType {
 	private PlanManager planManager = null;
-	private LabelManager labelManager = null;
+	public PlanManager getPlanManager()
+	{
+		return planManager;
+	}
 
+	public void setPlanManager(PlanManager planManager)
+	{
+		this.planManager = planManager;
+	}
+
+	private LabelManager labelManager = null;
+	public LabelManager getLabelManager()
+	{
+		return labelManager;
+	}
+
+	public void setLabelManager(LabelManager labelManager)
+	{
+		this.labelManager = labelManager;
+	}
+
+	private ResultsSummaryManager resultsSummaryManager = null;
+	public ResultsSummaryManager getResultsSummaryManager()
+	{
+		return resultsSummaryManager;
+	}
+
+	public void setResultsSummaryManager(ResultsSummaryManager resultsSummaryManager)
+	{
+		this.resultsSummaryManager = resultsSummaryManager;
+	}
 	@Override
 	public TaskResult execute(CommonTaskContext taskContext) throws TaskException {
 		final TaskResultBuilder builder = TaskResultBuilder.newBuilder(taskContext);
@@ -66,6 +95,7 @@ public class ScripthostTask implements CommonTaskType {
 				engine.put("buildLogger", buildLogger);
 				engine.put("planManager", planManager);
 				engine.put("labelManager", labelManager);
+				engine.put("resultsSummaryManager", resultsSummaryManager);
 
 				if ("FILE".equals(scriptLocation)) {
 					engine.eval(new FileReader(scriptFile));
@@ -78,21 +108,5 @@ public class ScripthostTask implements CommonTaskType {
 			builder.failed();
 		}
 		return builder.build();
-	}
-
-	public PlanManager getPlanManager() {
-		return planManager;
-	}
-
-	public void setPlanManager(PlanManager planManager) {
-		this.planManager = planManager;
-	}
-
-	public LabelManager getLabelManager() {
-		return labelManager;
-	}
-
-	public void setLabelManager(LabelManager labelManager) {
-		this.labelManager = labelManager;
 	}
 }
