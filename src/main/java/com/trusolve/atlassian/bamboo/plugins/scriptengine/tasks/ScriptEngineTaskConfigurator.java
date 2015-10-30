@@ -37,66 +37,64 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 	public static final String SCRIPTENGINE_SCRIPTLOCATION = "scriptlocation";
 	public static final String SCRIPTENGINE_SCRIPT = "script";
 
-    private static final Set<String> FIELDS = ImmutableSet.of(
-    		SCRIPTENGINE_SCRIPTTYPE,
-    		SCRIPTENGINE_SCRIPTBODY,
-    		SCRIPTENGINE_SCRIPTLOCATION,
-    		SCRIPTENGINE_SCRIPT
-    );
-    
-    
-    @Override
-    public void populateContextForCreate(@NotNull Map<String, Object> context)
-    {
-        super.populateContextForCreate(context);
-        context.put(SCRIPTENGINE_SCRIPTTYPE, "js");
-        context.put("locationTypes", getLocationTypes());
-    }
+	private static final Set<String> FIELDS = ImmutableSet.of(
+		SCRIPTENGINE_SCRIPTTYPE, 
+		SCRIPTENGINE_SCRIPTBODY, 
+		SCRIPTENGINE_SCRIPTLOCATION, 
+		SCRIPTENGINE_SCRIPT);
 
-    @Override
-    public void populateContextForView(@NotNull Map<String, Object> context, @NotNull TaskDefinition taskDefinition)
-    {
-        super.populateContextForView(context, taskDefinition);
-        taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
-    }
+	@Override
+	public void populateContextForCreate(@NotNull Map<String, Object> context)
+	{
+		super.populateContextForCreate(context);
+		context.put(SCRIPTENGINE_SCRIPTTYPE, "js");
+		context.put("locationTypes", getLocationTypes());
+	}
 
-    @Override
-    public void populateContextForEdit(@NotNull Map<String, Object> context, @NotNull TaskDefinition taskDefinition)
-    {
-        super.populateContextForEdit(context, taskDefinition);
-        taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
-        context.put("locationTypes", getLocationTypes());
-    }
-    
-    public List<PairType> getLocationTypes()
-    {
-    	PairType file = new PairType("FILE", "File");
-    	PairType inline = new PairType("INLINE", "Inline");
-    	return Lists.newArrayList(new PairType[] { inline, file });
-    }
-    
-    @NotNull
-    @Override
-    public Map<String, String> generateTaskConfigMap(@NotNull ActionParametersMap params, @Nullable TaskDefinition previousTaskDefinition)
-    {
-        final Map<String, String> config = super.generateTaskConfigMap(params, previousTaskDefinition);
-        taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, FIELDS);
-        return config;
-    }
-    
-    @Override
-    public void validate(@NotNull ActionParametersMap params, @NotNull ErrorCollection errorCollection)
-    {
-        super.validate(params, errorCollection);
+	@Override
+	public void populateContextForView(@NotNull Map<String, Object> context, @NotNull TaskDefinition taskDefinition)
+	{
+		super.populateContextForView(context, taskDefinition);
+		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
+	}
 
-        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE)))
-        {
-            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE, "Please specify the script language type.");
-        }
-        
-        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY)))
-        {
-            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY, "Please specify the script text you would like to execute.");
-        }
-    }
+	@Override
+	public void populateContextForEdit(@NotNull Map<String, Object> context, @NotNull TaskDefinition taskDefinition)
+	{
+		super.populateContextForEdit(context, taskDefinition);
+		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
+		context.put("locationTypes", getLocationTypes());
+	}
+
+	public List<PairType> getLocationTypes()
+	{
+		PairType file = new PairType("FILE", "File");
+		PairType inline = new PairType("INLINE", "Inline");
+		return Lists.newArrayList(new PairType[] { inline, file });
+	}
+
+	@NotNull
+	@Override
+	public Map<String, String> generateTaskConfigMap(@NotNull ActionParametersMap params, @Nullable TaskDefinition previousTaskDefinition)
+	{
+		final Map<String, String> config = super.generateTaskConfigMap(params, previousTaskDefinition);
+		taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, FIELDS);
+		return config;
+	}
+
+	@Override
+	public void validate(@NotNull ActionParametersMap params, @NotNull ErrorCollection errorCollection)
+	{
+		super.validate(params, errorCollection);
+
+		if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE)))
+		{
+			errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE, "Please specify the script language type.");
+		}
+
+		if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY)))
+		{
+			errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY, "Please specify the script text you would like to execute.");
+		}
+	}
 }

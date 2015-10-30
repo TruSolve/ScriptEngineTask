@@ -14,4 +14,7 @@
 		<resource type="freemarker" name="view" location="templates/buildProcessor/scriptEngineTaskView.ftl" />
 		<resource type="download" name="icon" location="images/pluginLogo.png" />
 	</taskType>
+	<component-import key="transactionTemplate" name="Hibernate Transaction Template" interface="com.atlassian.sal.api.transaction.TransactionTemplate">
+		<description>hibernate transaction</description>
+	</component-import>
 </atlassian-plugin>

@@ -37,9 +37,12 @@ import com.atlassian.bamboo.task.TaskResult;
 import com.atlassian.bamboo.task.TaskResultBuilder;
 import com.atlassian.bamboo.task.TaskType;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
+import com.atlassian.sal.api.transaction.TransactionTemplate;
 
-public class ScriptEngineTask implements CommonTaskType {
+public class ScriptEngineTask implements CommonTaskType
+{
 	private PlanManager planManager = null;
+
 	public PlanManager getPlanManager()
 	{
 		return planManager;
@@ -51,6 +54,7 @@ public class ScriptEngineTask implements CommonTaskType {
 	}
 
 	private LabelManager labelManager = null;
+
 	public LabelManager getLabelManager()
 	{
 		return labelManager;
@@ -62,6 +66,7 @@ public class ScriptEngineTask implements CommonTaskType {
 	}
 
 	private ResultsSummaryManager resultsSummaryManager = null;
+
 	public ResultsSummaryManager getResultsSummaryManager()
 	{
 		return resultsSummaryManager;
@@ -71,8 +76,22 @@ public class ScriptEngineTask implements CommonTaskType {
 	{
 		this.resultsSummaryManager = resultsSummaryManager;
 	}
+
+	private TransactionTemplate transactionTemplate = null;
+
+	public TransactionTemplate getTransactionTemplate()
+	{
+		return transactionTemplate;
+	}
+
+	public void setTransactionTemplate(TransactionTemplate transactionTemplate)
+	{
+		this.transactionTemplate = transactionTemplate;
+	}
+
 	@Override
-	public TaskResult execute(CommonTaskContext taskContext) throws TaskException {
+	public TaskResult execute(CommonTaskContext taskContext) throws TaskException
+	{
 		final TaskResultBuilder builder = TaskResultBuilder.newBuilder(taskContext);
 		final BuildLogger buildLogger = taskContext.getBuildLogger();
 
@@ -83,27 +102,37 @@ public class ScriptEngineTask implements CommonTaskType {
 		final String scriptFile = config.get(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPT);
 		final String scriptLocation = config.get(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTLOCATION);
 
-		try {
+		try
+		{
 			ScriptEngineManager factory = new ScriptEngineManager();
 			ScriptEngine engine = factory.getEngineByName(scriptLanguage);
-			if (engine == null) {
+			if (engine == null)
+			{
 				buildLogger.addErrorLogEntry("Script engine " + scriptLanguage + " not found.");
 				builder.failed();
-			} else {
+			}
+			else
+			{
 				engine.put("taskContext", taskContext);
 				engine.put("builder", builder);
 				engine.put("buildLogger", buildLogger);
 				engine.put("planManager", planManager);
 				engine.put("labelManager", labelManager);
 				engine.put("resultsSummaryManager", resultsSummaryManager);
+				engine.put("transactionTemplate", transactionTemplate);
 
-				if ("FILE".equals(scriptLocation)) {
+				if ("FILE".equals(scriptLocation))
+				{
 					engine.eval(new FileReader(scriptFile));
-				} else {
+				}
+				else
+				{
 					engine.eval(script);
 				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			buildLogger.addErrorLogEntry("Script Exception: " + e.getMessage(), e);
 			builder.failed();
 		}
