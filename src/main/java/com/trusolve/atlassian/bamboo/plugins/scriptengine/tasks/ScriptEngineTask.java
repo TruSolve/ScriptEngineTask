@@ -13,7 +13,7 @@
    limitations under the License.
 */
 
-package com.trusolve.atlassian.bamboo.plugins.scripthost.tasks;
+package com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks;
 
 import java.io.FileReader;
 import java.util.Map;
@@ -78,10 +78,10 @@ public class ScriptEngineTask implements CommonTaskType {
 
 		final ConfigurationMap config = taskContext.getConfigurationMap();
 
-		final String scriptLanguage = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTTYPE);
-		final String script = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTBODY);
-		final String scriptFile = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPT);
-		final String scriptLocation = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTLOCATION);
+		final String scriptLanguage = config.get(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE);
+		final String script = config.get(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY);
+		final String scriptFile = config.get(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPT);
+		final String scriptLocation = config.get(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTLOCATION);
 
 		try {
 			ScriptEngineManager factory = new ScriptEngineManager();
@@ -104,7 +104,7 @@ public class ScriptEngineTask implements CommonTaskType {
 				}
 			}
 		} catch (Exception e) {
-			buildLogger.addErrorLogEntry("Script Exception: " + e.getMessage());
+			buildLogger.addErrorLogEntry("Script Exception: " + e.getMessage(), e);
 			builder.failed();
 		}
 		return builder.build();

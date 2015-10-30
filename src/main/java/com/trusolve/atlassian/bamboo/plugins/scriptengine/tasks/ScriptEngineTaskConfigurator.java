@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-package com.trusolve.atlassian.bamboo.plugins.scripthost.tasks;
+package com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks;
 
 import java.util.List;
 import java.util.Map;
@@ -32,16 +32,16 @@ import com.google.common.collect.Lists;
 
 public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 {
-	public static final String SCRIPTHOST_SCRIPTBODY = "scriptbody";
-	public static final String SCRIPTHOST_SCRIPTTYPE = "scripttype";
-	public static final String SCRIPTHOST_SCRIPTLOCATION = "scriptlocation";
-	public static final String SCRIPTHOST_SCRIPT = "script";
+	public static final String SCRIPTENGINE_SCRIPTBODY = "scriptbody";
+	public static final String SCRIPTENGINE_SCRIPTTYPE = "scripttype";
+	public static final String SCRIPTENGINE_SCRIPTLOCATION = "scriptlocation";
+	public static final String SCRIPTENGINE_SCRIPT = "script";
 
     private static final Set<String> FIELDS = ImmutableSet.of(
-    		SCRIPTHOST_SCRIPTTYPE,
-    		SCRIPTHOST_SCRIPTBODY,
-    		SCRIPTHOST_SCRIPTLOCATION,
-    		SCRIPTHOST_SCRIPT
+    		SCRIPTENGINE_SCRIPTTYPE,
+    		SCRIPTENGINE_SCRIPTBODY,
+    		SCRIPTENGINE_SCRIPTLOCATION,
+    		SCRIPTENGINE_SCRIPT
     );
     
     
@@ -49,7 +49,7 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
     public void populateContextForCreate(@NotNull Map<String, Object> context)
     {
         super.populateContextForCreate(context);
-        context.put(SCRIPTHOST_SCRIPTTYPE, "js");
+        context.put(SCRIPTENGINE_SCRIPTTYPE, "js");
         context.put("locationTypes", getLocationTypes());
     }
 
@@ -89,14 +89,14 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
     {
         super.validate(params, errorCollection);
 
-        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTTYPE)))
+        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE)))
         {
-            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTTYPE, "Please specify the script language type.");
+            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTTYPE, "Please specify the script language type.");
         }
         
-        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTBODY)))
+        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY)))
         {
-            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTBODY, "Please specify the script text you would like to execute.");
+            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTENGINE_SCRIPTBODY, "Please specify the script text you would like to execute.");
         }
     }
 }
