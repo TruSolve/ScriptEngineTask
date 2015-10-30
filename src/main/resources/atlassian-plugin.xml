@@ -10,9 +10,9 @@
 		<category name="deployment" />
 		<category name="build" />
 		<configuration class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineTaskConfigurator" />
-		<resource type="freemarker" name="edit" location="templates/buildProcessor/scriptEngineTaskEdit.ftl" />
-		<resource type="freemarker" name="view" location="templates/buildProcessor/scriptEngineTaskView.ftl" />
-		<resource type="download" name="icon" location="images/pluginLogo.png" />
+		<resource type="freemarker" name="edit" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskEdit.ftl" />
+		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskView.ftl" />
+		<resource type="download" name="icon" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/images/pluginLogo.png" />
 	</taskType>
 	<component-import key="transactionTemplate" name="Hibernate Transaction Template" interface="com.atlassian.sal.api.transaction.TransactionTemplate">
 		<description>hibernate transaction</description>
