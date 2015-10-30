@@ -38,7 +38,7 @@ import com.atlassian.bamboo.task.TaskResultBuilder;
 import com.atlassian.bamboo.task.TaskType;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
 
-public class ScripthostTask implements CommonTaskType {
+public class ScriptEngineTask implements CommonTaskType {
 	private PlanManager planManager = null;
 	public PlanManager getPlanManager()
 	{
@@ -78,10 +78,10 @@ public class ScripthostTask implements CommonTaskType {
 
 		final ConfigurationMap config = taskContext.getConfigurationMap();
 
-		final String scriptLanguage = config.get(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTTYPE);
-		final String script = config.get(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTBODY);
-		final String scriptFile = config.get(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPT);
-		final String scriptLocation = config.get(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTLOCATION);
+		final String scriptLanguage = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTTYPE);
+		final String script = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTBODY);
+		final String scriptFile = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPT);
+		final String scriptLocation = config.get(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTLOCATION);
 
 		try {
 			ScriptEngineManager factory = new ScriptEngineManager();

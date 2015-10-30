@@ -30,7 +30,7 @@ import com.atlassian.core.util.PairType;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
-public class ScripthostTaskConfigurator extends AbstractTaskConfigurator
+public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 {
 	public static final String SCRIPTHOST_SCRIPTBODY = "scriptbody";
 	public static final String SCRIPTHOST_SCRIPTTYPE = "scripttype";
@@ -89,14 +89,14 @@ public class ScripthostTaskConfigurator extends AbstractTaskConfigurator
     {
         super.validate(params, errorCollection);
 
-        if (StringUtils.isEmpty(params.getString(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTTYPE)))
+        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTTYPE)))
         {
-            errorCollection.addError(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTTYPE, "Please specify the script language type.");
+            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTTYPE, "Please specify the script language type.");
         }
         
-        if (StringUtils.isEmpty(params.getString(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTBODY)))
+        if (StringUtils.isEmpty(params.getString(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTBODY)))
         {
-            errorCollection.addError(ScripthostTaskConfigurator.SCRIPTHOST_SCRIPTBODY, "Please specify the script text you would like to execute.");
+            errorCollection.addError(ScriptEngineTaskConfigurator.SCRIPTHOST_SCRIPTBODY, "Please specify the script text you would like to execute.");
         }
     }
 }

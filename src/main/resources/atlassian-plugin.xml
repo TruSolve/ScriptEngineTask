@@ -5,12 +5,13 @@
 		<vendor name="${project.organization.name}" url="${project.organization.url}" />
 	</plugin-info>
 
-	<taskType key="scriptHostTask" name="ScriptHost Task" class="com.trusolve.atlassian.bamboo.plugins.scripthost.tasks.ScripthostTask">
-		<description>Executes JSR223 scripts in the context of the Task/Build.</description>
+	<taskType key="scriptEngineTask" name="ScriptEngine Task" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineTask">
+		<description>Executes JSR223 scripts in the context of the Build/Deployment Task.</description>
 		<category name="deployment" />
-		<configuration class="com.trusolve.atlassian.bamboo.plugins.scripthost.tasks.ScripthostTaskConfigurator" />
-		<resource type="freemarker" name="edit" location="templates/buildProcessor/scripthostTaskEdit.ftl" />
-		<resource type="freemarker" name="view" location="templates/buildProcessor/cripthostTaskView.ftl" />
+		<category name="build" />
+		<configuration class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineTaskConfigurator" />
+		<resource type="freemarker" name="edit" location="templates/buildProcessor/scriptEngineTaskEdit.ftl" />
+		<resource type="freemarker" name="view" location="templates/buildProcessor/scriptEngineTaskView.ftl" />
 		<resource type="download" name="icon" location="images/pluginLogo.png" />
 	</taskType>
 </atlassian-plugin>
