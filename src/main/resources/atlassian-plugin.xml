@@ -14,6 +14,18 @@
 		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskView.ftl" />
 		<resource type="download" name="icon" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/images/scriptEngineLogo.png" />
 	</taskType>
+	<additionalBuildConfigurationPlugin key="labelExpirationConfiguration" name="Label Expiration Configuration" class="com.trusolve.atlassian.bamboo.plugins.labelexpiration.ScriptEngineBuildConfigurationPlugin">
+		<description>Perform setting and expiry of labels on builds.</description>
+		<resource type="freemarker" name="edit" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineBuildConfigurationEdit.ftl" />
+		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineBuildConfigurationView.ftl" />
+	</additionalBuildConfigurationPlugin>
+	<buildProcessorServer key="scriptEngineBuildProcessorServer" name="Label Expiration Build Processor Server" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineBuildProcessorServer">
+		<skipIfFailed>false</skipIfFailed>
+		<description>Executes a script on the server at the end of a build.</description>
+	</buildProcessorServer>
+	<bambooEventListener key="scriptEngineEventListener" name="Label Expiration Event Listener" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineEventListener">
+		<description>Optionally executes a script on the server at the completion of a deployment.  This is a hack because Atlassian hasn't made the BuildProcessorServer work with Deployments.</description>
+	</bambooEventListener>
 	<component-import key="transactionTemplate" name="Hibernate Transaction Template" interface="com.atlassian.sal.api.transaction.TransactionTemplate">
 		<description>hibernate transaction</description>
 	</component-import>
