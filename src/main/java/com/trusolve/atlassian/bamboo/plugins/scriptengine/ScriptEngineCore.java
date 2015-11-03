@@ -11,6 +11,7 @@ import javax.script.ScriptException;
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
 import com.atlassian.bamboo.build.test.TestCollationService;
 import com.atlassian.bamboo.configuration.SystemInfo;
+import com.atlassian.bamboo.deployments.results.service.DeploymentResultService;
 import com.atlassian.bamboo.labels.LabelManager;
 import com.atlassian.bamboo.logger.ErrorUpdateHandler;
 import com.atlassian.bamboo.plan.PlanManager;
@@ -30,51 +31,53 @@ abstract public class ScriptEngineCore
 	// local
 	// server.
 	private PlanManager planManager = null;
-
 	public PlanManager getPlanManager()
 	{
 		return planManager;
 	}
-
 	public void setPlanManager(PlanManager planManager)
 	{
 		this.planManager = planManager;
 	}
 
 	private LabelManager labelManager = null;
-
 	public LabelManager getLabelManager()
 	{
 		return labelManager;
 	}
-
 	public void setLabelManager(LabelManager labelManager)
 	{
 		this.labelManager = labelManager;
 	}
 
 	private ResultsSummaryManager resultsSummaryManager = null;
-
 	public ResultsSummaryManager getResultsSummaryManager()
 	{
 		return resultsSummaryManager;
 	}
-
 	public void setResultsSummaryManager(ResultsSummaryManager resultsSummaryManager)
 	{
 		this.resultsSummaryManager = resultsSummaryManager;
 	}
 
 	private TransactionTemplate transactionTemplate = null;
-
 	public TransactionTemplate getTransactionTemplate()
 	{
 		return transactionTemplate;
 	}
-
 	public void setTransactionTemplate(TransactionTemplate transactionTemplate)
 	{
 		this.transactionTemplate = transactionTemplate;
+	}
+
+	private DeploymentResultService deploymentResultService = null;
+	public DeploymentResultService getDeploymentResultService()
+	{
+		return deploymentResultService;
+	}
+	public void setDeploymentResultService(DeploymentResultService deploymentResultService)
+	{
+		this.deploymentResultService = deploymentResultService;
 	}
 
 	// The following variables/managers ARE safe to run on remote agents and can
@@ -200,8 +203,7 @@ abstract public class ScriptEngineCore
 		this.systemInfo = systemInfo;
 	}
 
-	protected void executeScript(String script, String scriptLanguage, ScriptContext scriptContext, boolean isFile)
-		throws FileNotFoundException, ScriptException
+	protected void executeScript(String script, String scriptLanguage, ScriptContext scriptContext, boolean isFile) throws FileNotFoundException, ScriptException
 	{
 		ScriptEngineManager factory = new ScriptEngineManager();
 		ScriptEngine engine = factory.getEngineByName(scriptLanguage);
@@ -226,7 +228,7 @@ abstract public class ScriptEngineCore
 			scriptContext.setAttribute("capabilityContext", this.capabilityContext, ScriptContext.ENGINE_SCOPE);
 			scriptContext.setAttribute("capabilityDefaultsHelper", this.capabilityDefaultsHelper, ScriptContext.ENGINE_SCOPE);
 			scriptContext.setAttribute("systemInfo", this.systemInfo, ScriptContext.ENGINE_SCOPE);
-			
+
 			engine.setContext(scriptContext);
 
 			if (isFile)

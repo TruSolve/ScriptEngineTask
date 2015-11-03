@@ -5,16 +5,25 @@
 		<vendor name="${project.organization.name}" url="${project.organization.url}" />
 	</plugin-info>
 
-	<taskType key="scriptEngineTask" name="ScriptEngine Task" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineTask">
+	<taskType key="scriptEngineBuildTask" name="ScriptEngine Task" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineBuildTask">
 		<description>Executes JSR223 scripts in the context of the Build/Deployment Task.</description>
 		<category name="deployment" />
 		<category name="build" />
-		<configuration class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineTaskConfigurator" />
+		<configuration class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineBuildTaskConfigurator" />
 		<resource type="freemarker" name="edit" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskEdit.ftl" />
 		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskView.ftl" />
 		<resource type="download" name="icon" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/images/scriptEngineLogo.png" />
 	</taskType>
-	<additionalBuildConfigurationPlugin key="labelExpirationConfiguration" name="Label Expiration Configuration" class="com.trusolve.atlassian.bamboo.plugins.labelexpiration.ScriptEngineBuildConfigurationPlugin">
+	<taskType key="scriptEngineDeployTask" name="ScriptEngine Task" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineDeployTask">
+		<description>Executes JSR223 scripts in the context of the Build/Deployment Task.</description>
+		<category name="deployment" />
+		<category name="build" />
+		<configuration class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineDeployTaskConfigurator" />
+		<resource type="freemarker" name="edit" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskEdit.ftl" />
+		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskView.ftl" />
+		<resource type="download" name="icon" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/images/scriptEngineLogo.png" />
+	</taskType>
+	<additionalBuildConfigurationPlugin key="ScriptEngineBuildConfigurationPlugin" name="Script Engine Build Processor Server Configuration" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineBuildConfigurationPlugin">
 		<description>Perform setting and expiry of labels on builds.</description>
 		<resource type="freemarker" name="edit" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineBuildConfigurationEdit.ftl" />
 		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineBuildConfigurationView.ftl" />
