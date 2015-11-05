@@ -8,7 +8,7 @@
         name='com_trusolve_scriptengine_scriptlocation'
         toggle=true /]
 
-[@ww.checkbox label='Run On Server' name='com_trusolve_scriptengine_runonserver' /]
+[@ww.checkbox label='Run On Server' name='com_trusolve_scriptengine_runOnServer' /]
 
 [@ww.textfield name='com_trusolve_scriptengine_scripttype' label='Script Type' required='true' description='The script language type.' /]
 

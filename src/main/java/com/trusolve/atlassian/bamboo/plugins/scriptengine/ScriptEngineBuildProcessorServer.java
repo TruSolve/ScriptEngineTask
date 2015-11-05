@@ -14,11 +14,20 @@ package com.trusolve.atlassian.bamboo.plugins.scriptengine;
    limitations under the License.
 */
 
+import javax.script.SimpleScriptContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.atlassian.bamboo.agent.AgentType;
 import com.atlassian.bamboo.build.CustomBuildProcessorServer;
+import com.atlassian.bamboo.builder.BuildState;
+import com.atlassian.bamboo.plan.PlanResultKey;
+import com.atlassian.bamboo.resultsummary.ResultsSummary;
+import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.v2.build.BuildContext;
+import com.atlassian.bamboo.v2.build.agent.BuildAgent;
+import java.util.Map;
 
 public class ScriptEngineBuildProcessorServer
 	extends ScriptEngineCore
@@ -31,9 +40,39 @@ public class ScriptEngineBuildProcessorServer
 	@Override
 	public BuildContext call() throws InterruptedException, Exception
 	{
-		System.out.println(buildContext.getBuildDefinition().getConfigObjects());
-		// this.executeScript(script, scriptLanguage, scriptContext, isFile);
-		return null;
+		ResultsSummary resultsSummary = resultsSummaryManager.getResultsSummary(buildContext.getPlanResultKey());
+		BuildAgent buildAgent = agentManager.getAgent(resultsSummary.getBuildAgentId());
+		if( buildAgent != null && ! AgentType.LOCAL.equals(buildAgent.getType()))
+		{
+			for(TaskDefinition taskDefinition : buildContext.getTaskDefinitions() )
+			{
+				if( ScriptEngineConstants.PLUGIN_KEY.equals(taskDefinition.getPluginKey()))
+				{
+					configurationInit(taskDefinition.getConfiguration());
+
+					SimpleScriptContext ssc = new SimpleScriptContext();
+					ssc.setAttribute("buildContext", buildContext, SimpleScriptContext.ENGINE_SCOPE);
+
+					try
+					{
+						if ("FILE".equals(scriptLocation))
+						{
+							this.executeScript(scriptFile, scriptLanguage, ssc, true);
+						}
+						else
+						{
+							this.executeScript(scriptBody, scriptLanguage, ssc, false);
+						}
+					}
+					catch (Exception e)
+					{
+						buildContext.getCurrentResult().setBuildState(BuildState.FAILED);
+						buildContext.getCurrentResult().getBuildErrors().add("Script Execution Failed." + e.getMessage());
+					}
+				}
+			}
+		}
+		return buildContext;
 	}
 
 	@Override

@@ -29,14 +29,20 @@ import com.atlassian.bamboo.task.AbstractTaskConfigurator;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.utils.error.ErrorCollection;
 import com.atlassian.core.util.PairType;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
 
-public abstract class ScriptEngineBaseTaskConfigurator extends AbstractTaskConfigurator
+public abstract class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 {
-	private static final Logger log = LoggerFactory.getLogger(ScriptEngineBaseTaskConfigurator.class);
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineTaskConfigurator.class);
 	
-	protected abstract Set<String> getFields();
+	private static final Set<String> FIELDS = ImmutableSet.of(
+		ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER,
+		ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE, 
+		ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY, 
+		ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION, 
+		ScriptEngineConstants.SCRIPTENGINE_SCRIPTFILE);
 	
 	@Override
 	public void populateContextForCreate(@NotNull Map<String, Object> context)
@@ -50,14 +56,15 @@ public abstract class ScriptEngineBaseTaskConfigurator extends AbstractTaskConfi
 	public void populateContextForView(@NotNull Map<String, Object> context, @NotNull TaskDefinition taskDefinition)
 	{
 		super.populateContextForView(context, taskDefinition);
-		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, getFields());
+		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
 	}
 
 	@Override
 	public void populateContextForEdit(@NotNull Map<String, Object> context, @NotNull TaskDefinition taskDefinition)
 	{
 		super.populateContextForEdit(context, taskDefinition);
-		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, getFields());
+		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
+		context.put(ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER, "false");
 		context.put(ScriptEngineConstants.SCRIPTENGINE_LOCATIONTYPES, getLocationTypes());
 	}
 
@@ -73,7 +80,7 @@ public abstract class ScriptEngineBaseTaskConfigurator extends AbstractTaskConfi
 	public Map<String, String> generateTaskConfigMap(@NotNull ActionParametersMap params, @Nullable TaskDefinition previousTaskDefinition)
 	{
 		final Map<String, String> config = super.generateTaskConfigMap(params, previousTaskDefinition);
-		taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, getFields());
+		taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, FIELDS);
 		return config;
 	}
 

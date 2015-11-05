@@ -34,7 +34,7 @@ public class ScriptEngineEventListener
 	
 	private void executeScript(Map<String,String> config, long deploymentResultId)
 	{
-		final String scriptDeployRunOnServer = config.get(ScriptEngineConstants.SCRIPTENGINE_DEPLOYRUNONSERVER);
+		final String scriptDeployRunOnServer = config.get(ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER);
 		final String scriptLanguage = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE);
 		final String scriptBody = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY);
 		final String scriptFile = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTFILE);

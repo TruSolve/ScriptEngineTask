@@ -2,6 +2,7 @@ package com.trusolve.atlassian.bamboo.plugins.scriptengine;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Map;
 
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
 import com.atlassian.bamboo.build.test.TestCollationService;
+import com.atlassian.bamboo.buildqueue.manager.AgentManager;
 import com.atlassian.bamboo.configuration.SystemInfo;
 import com.atlassian.bamboo.deployments.results.service.DeploymentResultService;
 import com.atlassian.bamboo.labels.LabelManager;
@@ -82,6 +84,16 @@ abstract public class ScriptEngineCore
 	public void setDeploymentResultService(DeploymentResultService deploymentResultService)
 	{
 		this.deploymentResultService = deploymentResultService;
+	}
+	
+	protected AgentManager agentManager = null;
+	public AgentManager getAgentManager()
+	{
+		return agentManager;
+	}
+	public void setAgentManager(AgentManager agentManager)
+	{
+		this.agentManager = agentManager;
 	}
 
 	// The following variables/managers ARE safe to run on remote agents and can
@@ -207,6 +219,22 @@ abstract public class ScriptEngineCore
 		this.systemInfo = systemInfo;
 	}
 
+	protected String scriptRunOnServer = null;
+	protected String scriptLanguage = null;
+	protected String scriptBody = null;
+	protected String scriptFile = null;
+	protected String scriptLocation = null;
+
+	protected void configurationInit(Map<String,String> config)
+	{
+		scriptRunOnServer = config.get(ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER);
+		scriptLanguage = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE);
+		String scriptBody = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY);
+		String scriptFile = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTFILE);
+		String scriptLocation = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION);
+		
+	}
+	
 	protected void executeScript(String script, String scriptLanguage, ScriptContext scriptContext, boolean isFile) throws FileNotFoundException, ScriptException
 	{
 		ScriptEngineManager factory = new ScriptEngineManager();

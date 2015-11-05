@@ -29,10 +29,10 @@ import com.atlassian.bamboo.task.TaskResultBuilder;
 import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
 import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineCore;
 
-public abstract class ScriptEngineBaseTask
+public abstract class ScriptEngineTask
 	extends ScriptEngineCore
 {	
-	private static final Logger log = LoggerFactory.getLogger(ScriptEngineBaseTask.class);
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineTask.class);
 	
 	public TaskResult execute(CommonTaskContext taskContext) throws TaskException
 	{
@@ -41,18 +41,13 @@ public abstract class ScriptEngineBaseTask
 
 		final ConfigurationMap config = taskContext.getConfigurationMap();
 
-		final String scriptDeployRunOnServer = config.get(ScriptEngineConstants.SCRIPTENGINE_DEPLOYRUNONSERVER);
-		final String scriptLanguage = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE);
-		final String scriptBody = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY);
-		final String scriptFile = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTFILE);
-		final String scriptLocation = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION);
-
-		if( scriptDeployRunOnServer != null && "true".equalsIgnoreCase(scriptDeployRunOnServer) && this.resultsSummaryManager == null )
+		configurationInit(config);
+		
+		if( scriptRunOnServer != null && "true".equalsIgnoreCase(scriptRunOnServer) && this.resultsSummaryManager == null )
 		{
 			buildLogger.addBuildLogEntry("Deferring execution of script to run on server.");
 			return builder.build();
 		}
-		
 		
 		SimpleScriptContext ssc = new SimpleScriptContext();
 		ssc.setAttribute("taskContext", taskContext, SimpleScriptContext.ENGINE_SCOPE);
