@@ -3,12 +3,17 @@ package com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.google.common.collect.ImmutableSet;
 import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
 
 public class ScriptEngineDeployTaskConfigurator extends ScriptEngineBaseTaskConfigurator
 {
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineDeployTaskConfigurator.class);
+	
 	private static final Set<String> FIELDS = ImmutableSet.of(
 			ScriptEngineConstants.SCRIPTENGINE_DEPLOYRUNONSERVER,
 			ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE, 

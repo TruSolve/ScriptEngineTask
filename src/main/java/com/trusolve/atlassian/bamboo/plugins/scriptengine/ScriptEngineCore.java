@@ -8,6 +8,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
 import com.atlassian.bamboo.build.test.TestCollationService;
 import com.atlassian.bamboo.configuration.SystemInfo;
@@ -26,11 +29,12 @@ import com.atlassian.sal.api.transaction.TransactionTemplate;
 
 abstract public class ScriptEngineCore
 {
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineCore.class);
 	// The following variables/managers are NOT safe to run on remote agents
 	// These likely will only function on an agent that is executing on the
 	// local
 	// server.
-	private PlanManager planManager = null;
+	protected PlanManager planManager = null;
 	public PlanManager getPlanManager()
 	{
 		return planManager;
@@ -40,7 +44,7 @@ abstract public class ScriptEngineCore
 		this.planManager = planManager;
 	}
 
-	private LabelManager labelManager = null;
+	protected LabelManager labelManager = null;
 	public LabelManager getLabelManager()
 	{
 		return labelManager;
@@ -50,7 +54,7 @@ abstract public class ScriptEngineCore
 		this.labelManager = labelManager;
 	}
 
-	private ResultsSummaryManager resultsSummaryManager = null;
+	protected ResultsSummaryManager resultsSummaryManager = null;
 	public ResultsSummaryManager getResultsSummaryManager()
 	{
 		return resultsSummaryManager;
@@ -60,7 +64,7 @@ abstract public class ScriptEngineCore
 		this.resultsSummaryManager = resultsSummaryManager;
 	}
 
-	private TransactionTemplate transactionTemplate = null;
+	protected TransactionTemplate transactionTemplate = null;
 	public TransactionTemplate getTransactionTemplate()
 	{
 		return transactionTemplate;
@@ -70,7 +74,7 @@ abstract public class ScriptEngineCore
 		this.transactionTemplate = transactionTemplate;
 	}
 
-	private DeploymentResultService deploymentResultService = null;
+	protected DeploymentResultService deploymentResultService = null;
 	public DeploymentResultService getDeploymentResultService()
 	{
 		return deploymentResultService;
@@ -83,7 +87,7 @@ abstract public class ScriptEngineCore
 	// The following variables/managers ARE safe to run on remote agents and can
 	// be used on
 	// any build task.
-	private TestCollationService testCollationService = null;
+	protected TestCollationService testCollationService = null;
 
 	public TestCollationService getTestCollationService()
 	{
@@ -95,7 +99,7 @@ abstract public class ScriptEngineCore
 		this.testCollationService = testCollationService;
 	}
 
-	private ProcessService processService = null;
+	protected ProcessService processService = null;
 
 	public ProcessService getProcessService()
 	{
@@ -107,7 +111,7 @@ abstract public class ScriptEngineCore
 		this.processService = processService;
 	}
 
-	private ArtifactManager artifactManager = null;
+	protected ArtifactManager artifactManager = null;
 
 	public ArtifactManager getArtifactManager()
 	{
@@ -119,7 +123,7 @@ abstract public class ScriptEngineCore
 		this.artifactManager = artifactManager;
 	}
 
-	private CustomVariableContext customVariableContext = null;
+	protected CustomVariableContext customVariableContext = null;
 
 	public CustomVariableContext getCustomVariableContext()
 	{
@@ -131,7 +135,7 @@ abstract public class ScriptEngineCore
 		this.customVariableContext = customVariableContext;
 	}
 
-	private ErrorUpdateHandler errorUpdateHandler = null;
+	protected ErrorUpdateHandler errorUpdateHandler = null;
 
 	public ErrorUpdateHandler getErrorUpdateHandler()
 	{
@@ -143,7 +147,7 @@ abstract public class ScriptEngineCore
 		this.errorUpdateHandler = errorUpdateHandler;
 	}
 
-	private AgentContext agentContext = null;
+	protected AgentContext agentContext = null;
 
 	public AgentContext getAgentContext()
 	{
@@ -155,7 +159,7 @@ abstract public class ScriptEngineCore
 		this.agentContext = agentContext;
 	}
 
-	private CapabilityConfigurationManager capabilityConfigurationManager = null;
+	protected CapabilityConfigurationManager capabilityConfigurationManager = null;
 
 	public CapabilityConfigurationManager getCapabilityConfigurationManager()
 	{
@@ -167,7 +171,7 @@ abstract public class ScriptEngineCore
 		this.capabilityConfigurationManager = capabilityConfigurationManager;
 	}
 
-	private CapabilityContext capabilityContext = null;
+	protected CapabilityContext capabilityContext = null;
 
 	public CapabilityContext getCapabilityContext()
 	{
@@ -179,7 +183,7 @@ abstract public class ScriptEngineCore
 		this.capabilityContext = capabilityContext;
 	}
 
-	private CapabilityDefaultsHelper capabilityDefaultsHelper = null;
+	protected CapabilityDefaultsHelper capabilityDefaultsHelper = null;
 
 	public CapabilityDefaultsHelper getCapabilityDefaultsHelper()
 	{
@@ -191,7 +195,7 @@ abstract public class ScriptEngineCore
 		this.capabilityDefaultsHelper = capabilityDefaultsHelper;
 	}
 
-	private SystemInfo systemInfo = null;
+	protected SystemInfo systemInfo = null;
 
 	public SystemInfo getSystemInfo()
 	{

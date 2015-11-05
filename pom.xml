@@ -5,8 +5,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.trusolve.atlassian.bamboo</groupId>
-    <artifactId>scripthosttask</artifactId>
+    <groupId>com.trusolve.atlassian.bamboo.plugins</groupId>
     <version>1.0.0-SNAPSHOT</version>
 
     <organization>
@@ -14,7 +13,7 @@
         <url>http://www.example.com/</url>
     </organization>
 
-    <name>scripthosttask</name>
+    <name>ScriptEngine</name>
     <description>This is the com.trusolve.atlassian.bamboo:scripthosttask plugin for Atlassian Bamboo.</description>
     <packaging>atlassian-plugin</packaging>
 
@@ -119,4 +118,5 @@
         	</plugins>
         </pluginManagement>
     </build>
+    <artifactId>ScriptEngine</artifactId>
 </project>

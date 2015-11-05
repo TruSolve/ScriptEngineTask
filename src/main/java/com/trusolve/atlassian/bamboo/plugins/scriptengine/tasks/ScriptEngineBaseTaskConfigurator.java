@@ -21,6 +21,8 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.atlassian.bamboo.collections.ActionParametersMap;
 import com.atlassian.bamboo.task.AbstractTaskConfigurator;
@@ -32,6 +34,8 @@ import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
 
 public abstract class ScriptEngineBaseTaskConfigurator extends AbstractTaskConfigurator
 {
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineBaseTaskConfigurator.class);
+	
 	protected abstract Set<String> getFields();
 	
 	@Override

@@ -1,3 +1,5 @@
+[#import "/lib/ace.ftl" as ace ]
+
 [@ww.select
         label='Script location'
         listKey='key'
@@ -6,9 +8,7 @@
         name='com_trusolve_scriptengine_scriptlocation'
         toggle=true /]
 
-[@ui.bambooSection dependsOn='com_trusolve_scriptengine_isDeployment' showOn='true']
-    [@ww.checkbox label='Run On Server' name='com_trusolve_scriptengine_deployRunOnServer' /]
-[/@ui.bambooSection]
+[@ww.checkbox label='Run On Server' name='com_trusolve_scriptengine_runonserver' /]
 
 [@ww.textfield name='com_trusolve_scriptengine_scripttype' label='Script Type' required='true' description='The script language type.' /]
 

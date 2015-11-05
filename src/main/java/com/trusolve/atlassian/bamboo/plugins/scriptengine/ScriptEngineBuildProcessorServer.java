@@ -14,22 +14,24 @@ package com.trusolve.atlassian.bamboo.plugins.scriptengine;
    limitations under the License.
 */
 
-import com.atlassian.bamboo.build.BuildDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atlassian.bamboo.build.CustomBuildProcessorServer;
 import com.atlassian.bamboo.v2.build.BuildContext;
-import com.atlassian.bamboo.variable.VariableContext;
-import com.atlassian.sal.api.transaction.TransactionCallback;
-import com.atlassian.sal.api.transaction.TransactionTemplate;
 
 public class ScriptEngineBuildProcessorServer
 	extends ScriptEngineCore
 	implements CustomBuildProcessorServer
 {
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineBuildProcessorServer.class);
+	
 	private BuildContext buildContext = null;
 
 	@Override
 	public BuildContext call() throws InterruptedException, Exception
 	{
+		System.out.println(buildContext.getBuildDefinition().getConfigObjects());
 		// this.executeScript(script, scriptLanguage, scriptContext, isFile);
 		return null;
 	}
@@ -38,12 +40,6 @@ public class ScriptEngineBuildProcessorServer
 	public void init(BuildContext buildContext)
 	{
 		this.buildContext = buildContext;
-		BuildDefinition buildDefinition = buildContext.getBuildDefinition();
-		
-		VariableContext variableContext = buildContext.getVariableContext();
-		
-//		planKey = variableContext.getEffectiveVariables().get("planKey").getValue();
-//		planResultKey = PlanKeys.getPlanResultKey(variableContext.getEffectiveVariables().get("buildResultKey").getValue());
 	}
 
 }

@@ -4,6 +4,9 @@ import java.util.Map;
 
 import javax.script.SimpleScriptContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atlassian.bamboo.deployments.execution.events.DeploymentFinishedEvent;
 import com.atlassian.bamboo.deployments.results.DeploymentResult;
 import com.atlassian.bamboo.deployments.results.service.DeploymentResultService;
@@ -14,36 +17,15 @@ import com.atlassian.event.api.EventListener;
 public class ScriptEngineEventListener
 	extends ScriptEngineCore
 {
-	private DeploymentResultService deploymentResultService = null;
-	public DeploymentResultService getDeploymentResultService()
-	{
-		return deploymentResultService;
-	}
-	public void setDeploymentResultService(DeploymentResultService deploymentResultService)
-	{
-		this.deploymentResultService = deploymentResultService;
-	}
-
-	private ResultsSummaryManager resultsSummaryManager = null;
-	public ResultsSummaryManager getResultsSummaryManager()
-	{
-		return resultsSummaryManager;
-	}
-
-	public void setResultsSummaryManager(ResultsSummaryManager resultsSummaryManager)
-	{
-		this.resultsSummaryManager = resultsSummaryManager;
-	}
-
-
-
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineEventListener.class);
+	
 	@EventListener
 	public void handleDeploymentScripts(DeploymentFinishedEvent deploymentFinishedEvent)
 	{
 		DeploymentResult deploymentResult = deploymentResultService.getDeploymentResult(deploymentFinishedEvent.getDeploymentResultId());
 		for(TaskDefinition taskDefinition : deploymentResult.getEnvironment().getTaskDefinitions())
 		{
-			if( "com.trusolve.atlassian.bamboo.scripthosttask:scriptEngineDeployTask".equals(taskDefinition.getPluginKey()))
+			if( "ccom.trusolve.atlassian.bamboo.plugins.ScriptEngine:scriptEngineDeployTask".equals(taskDefinition.getPluginKey()))
 			{
 				executeScript(taskDefinition.getConfiguration(), deploymentFinishedEvent.getDeploymentResultId());
 			}

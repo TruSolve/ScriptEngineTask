@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.atlassian.bamboo.build.Job;
 import com.atlassian.bamboo.plan.Plan;
@@ -14,13 +16,18 @@ import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 import com.atlassian.core.util.PairType;
 import com.google.common.collect.Lists;
 
+import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
+
 public class ScriptEngineBuildConfigurationPlugin
 	extends BaseBuildConfigurationAwarePlugin
 	implements MiscellaneousBuildConfigurationPlugin
 {
+	private static final Logger log = LoggerFactory.getLogger(ScriptEngineBuildConfigurationPlugin.class);
+	
 	@Override
 	public ErrorCollection validate(BuildConfiguration buildConfiguration)
 	{
+		log.debug("Validating user input.");
 		ErrorCollection errorCollection = super.validate(buildConfiguration);
 		if( buildConfiguration.getProperty(ScriptEngineConstants.SCRIPTENGINE_BUILDPROCESSORSERVERENABLE) == null )
 		{
@@ -64,6 +71,7 @@ public class ScriptEngineBuildConfigurationPlugin
 		buildConfiguration.addProperty(ScriptEngineConstants.SCRIPTENGINE_BUILDPROCESSORSERVERENABLE,  false);
 		buildConfiguration.addProperty(ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION, "INLINE");
 		buildConfiguration.addProperty(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE, "js");
+		log.debug("Added default values for script.");
 	}
 
 	@Override
@@ -71,6 +79,7 @@ public class ScriptEngineBuildConfigurationPlugin
 	{
 		super.populateContextForEdit(context, buildConfiguration, plan);
 		context.put(ScriptEngineConstants.SCRIPTENGINE_LOCATIONTYPES, getLocationTypes());
+		log.debug("Populated context for edit");
 	}
 
 	private List<PairType> getLocationTypes()
@@ -83,8 +92,11 @@ public class ScriptEngineBuildConfigurationPlugin
 	@Override
 	public boolean isConfigurationMissing(BuildConfiguration buildConfiguration)
 	{
-		if ( buildConfiguration.getProperty("com.trusolve.labelexpiration.enable") == null )
+		if ( buildConfiguration.getProperty(ScriptEngineConstants.SCRIPTENGINE_BUILDPROCESSORSERVERENABLE) == null ||
+			buildConfiguration.getProperty(ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION) == null ||
+			buildConfiguration.getProperty(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE) == null)
 		{
+			log.debug("Configuration is missing.  Returning false.");
 			return(true);
 		}
 		return super.isConfigurationMissing(buildConfiguration);
