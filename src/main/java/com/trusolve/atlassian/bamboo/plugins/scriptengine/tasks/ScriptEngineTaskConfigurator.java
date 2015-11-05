@@ -33,7 +33,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
 
-public abstract class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
+public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 {
 	private static final Logger log = LoggerFactory.getLogger(ScriptEngineTaskConfigurator.class);
 	
@@ -64,7 +64,6 @@ public abstract class ScriptEngineTaskConfigurator extends AbstractTaskConfigura
 	{
 		super.populateContextForEdit(context, taskDefinition);
 		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
-		context.put(ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER, "false");
 		context.put(ScriptEngineConstants.SCRIPTENGINE_LOCATIONTYPES, getLocationTypes());
 	}
 

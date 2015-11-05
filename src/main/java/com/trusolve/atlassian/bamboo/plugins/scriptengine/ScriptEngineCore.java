@@ -12,6 +12,7 @@ import javax.script.ScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.atlassian.bamboo.build.BuildLoggerManager;
 import com.atlassian.bamboo.build.artifact.ArtifactManager;
 import com.atlassian.bamboo.build.test.TestCollationService;
 import com.atlassian.bamboo.buildqueue.manager.AgentManager;
@@ -85,7 +86,7 @@ abstract public class ScriptEngineCore
 	{
 		this.deploymentResultService = deploymentResultService;
 	}
-	
+
 	protected AgentManager agentManager = null;
 	public AgentManager getAgentManager()
 	{
@@ -100,123 +101,113 @@ abstract public class ScriptEngineCore
 	// be used on
 	// any build task.
 	protected TestCollationService testCollationService = null;
-
 	public TestCollationService getTestCollationService()
 	{
 		return testCollationService;
 	}
-
 	public void setTestCollationService(TestCollationService testCollationService)
 	{
 		this.testCollationService = testCollationService;
 	}
 
 	protected ProcessService processService = null;
-
 	public ProcessService getProcessService()
 	{
 		return processService;
 	}
-
 	public void setProcessService(ProcessService processService)
 	{
 		this.processService = processService;
 	}
 
 	protected ArtifactManager artifactManager = null;
-
 	public ArtifactManager getArtifactManager()
 	{
 		return artifactManager;
 	}
-
 	public void setArtifactManager(ArtifactManager artifactManager)
 	{
 		this.artifactManager = artifactManager;
 	}
 
 	protected CustomVariableContext customVariableContext = null;
-
 	public CustomVariableContext getCustomVariableContext()
 	{
 		return customVariableContext;
 	}
-
 	public void setCustomVariableContext(CustomVariableContext customVariableContext)
 	{
 		this.customVariableContext = customVariableContext;
 	}
 
 	protected ErrorUpdateHandler errorUpdateHandler = null;
-
 	public ErrorUpdateHandler getErrorUpdateHandler()
 	{
 		return errorUpdateHandler;
 	}
-
 	public void setErrorUpdateHandler(ErrorUpdateHandler errorUpdateHandler)
 	{
 		this.errorUpdateHandler = errorUpdateHandler;
 	}
 
 	protected AgentContext agentContext = null;
-
 	public AgentContext getAgentContext()
 	{
 		return agentContext;
 	}
-
 	public void setAgentContext(AgentContext agentContext)
 	{
 		this.agentContext = agentContext;
 	}
 
 	protected CapabilityConfigurationManager capabilityConfigurationManager = null;
-
 	public CapabilityConfigurationManager getCapabilityConfigurationManager()
 	{
 		return capabilityConfigurationManager;
 	}
-
 	public void setCapabilityConfigurationManager(CapabilityConfigurationManager capabilityConfigurationManager)
 	{
 		this.capabilityConfigurationManager = capabilityConfigurationManager;
 	}
 
 	protected CapabilityContext capabilityContext = null;
-
 	public CapabilityContext getCapabilityContext()
 	{
 		return capabilityContext;
 	}
-
 	public void setCapabilityContext(CapabilityContext capabilityContext)
 	{
 		this.capabilityContext = capabilityContext;
 	}
 
 	protected CapabilityDefaultsHelper capabilityDefaultsHelper = null;
-
 	public CapabilityDefaultsHelper getCapabilityDefaultsHelper()
 	{
 		return capabilityDefaultsHelper;
 	}
-
 	public void setCapabilityDefaultsHelper(CapabilityDefaultsHelper capabilityDefaultsHelper)
 	{
 		this.capabilityDefaultsHelper = capabilityDefaultsHelper;
 	}
 
 	protected SystemInfo systemInfo = null;
-
 	public SystemInfo getSystemInfo()
 	{
 		return systemInfo;
 	}
-
 	public void setSystemInfo(SystemInfo systemInfo)
 	{
 		this.systemInfo = systemInfo;
+	}
+
+	protected BuildLoggerManager buildLoggerManager = null;
+	public BuildLoggerManager getBuildLoggerManager()
+	{
+		return buildLoggerManager;
+	}
+	public void setBuildLoggerManager(BuildLoggerManager buildLoggerManager)
+	{
+		this.buildLoggerManager = buildLoggerManager;
 	}
 
 	protected String scriptRunOnServer = null;
@@ -225,16 +216,16 @@ abstract public class ScriptEngineCore
 	protected String scriptFile = null;
 	protected String scriptLocation = null;
 
-	protected void configurationInit(Map<String,String> config)
+	protected void configurationInit(Map<String, String> config)
 	{
 		scriptRunOnServer = config.get(ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER);
 		scriptLanguage = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE);
-		String scriptBody = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY);
-		String scriptFile = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTFILE);
-		String scriptLocation = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION);
-		
+		scriptBody = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY);
+		scriptFile = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTFILE);
+		scriptLocation = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTLOCATION);
+
 	}
-	
+
 	protected void executeScript(String script, String scriptLanguage, ScriptContext scriptContext, boolean isFile) throws FileNotFoundException, ScriptException
 	{
 		ScriptEngineManager factory = new ScriptEngineManager();
@@ -249,6 +240,7 @@ abstract public class ScriptEngineCore
 			scriptContext.setAttribute("labelManager", labelManager, ScriptContext.ENGINE_SCOPE);
 			scriptContext.setAttribute("resultsSummaryManager", resultsSummaryManager, ScriptContext.ENGINE_SCOPE);
 			scriptContext.setAttribute("transactionTemplate", transactionTemplate, ScriptContext.ENGINE_SCOPE);
+			scriptContext.setAttribute("buildLoggerManager", buildLoggerManager, ScriptContext.ENGINE_SCOPE);
 
 			scriptContext.setAttribute("testCollationService", this.testCollationService, ScriptContext.ENGINE_SCOPE);
 			scriptContext.setAttribute("processService", this.processService, ScriptContext.ENGINE_SCOPE);

@@ -15,6 +15,7 @@
 
 package com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks;
 
+import javax.script.ScriptContext;
 import javax.script.SimpleScriptContext;
 
 import org.slf4j.Logger;
@@ -23,14 +24,15 @@ import org.slf4j.LoggerFactory;
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
 import com.atlassian.bamboo.task.CommonTaskContext;
+import com.atlassian.bamboo.task.CommonTaskType;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.task.TaskResult;
 import com.atlassian.bamboo.task.TaskResultBuilder;
-import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineConstants;
 import com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineCore;
 
-public abstract class ScriptEngineTask
+public class ScriptEngineTask
 	extends ScriptEngineCore
+	implements CommonTaskType
 {	
 	private static final Logger log = LoggerFactory.getLogger(ScriptEngineTask.class);
 	
@@ -50,9 +52,9 @@ public abstract class ScriptEngineTask
 		}
 		
 		SimpleScriptContext ssc = new SimpleScriptContext();
-		ssc.setAttribute("taskContext", taskContext, SimpleScriptContext.ENGINE_SCOPE);
-		ssc.setAttribute("builder", builder, SimpleScriptContext.ENGINE_SCOPE);
-		ssc.setAttribute("buildLogger", buildLogger, SimpleScriptContext.ENGINE_SCOPE);
+		ssc.setAttribute("taskContext", taskContext, ScriptContext.ENGINE_SCOPE);
+		ssc.setAttribute("builder", builder, ScriptContext.ENGINE_SCOPE);
+		ssc.setAttribute("buildLogger", buildLogger, ScriptContext.ENGINE_SCOPE);
 
 		try
 		{

@@ -14,6 +14,7 @@ package com.trusolve.atlassian.bamboo.plugins.scriptengine;
    limitations under the License.
 */
 
+import javax.script.ScriptContext;
 import javax.script.SimpleScriptContext;
 
 import org.slf4j.Logger;
@@ -21,12 +22,18 @@ import org.slf4j.LoggerFactory;
 
 import com.atlassian.bamboo.agent.AgentType;
 import com.atlassian.bamboo.build.CustomBuildProcessorServer;
+import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.builder.BuildState;
 import com.atlassian.bamboo.plan.PlanResultKey;
 import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.v2.build.agent.BuildAgent;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ScriptEngineBuildProcessorServer
@@ -42,6 +49,7 @@ public class ScriptEngineBuildProcessorServer
 	{
 		ResultsSummary resultsSummary = resultsSummaryManager.getResultsSummary(buildContext.getPlanResultKey());
 		BuildAgent buildAgent = agentManager.getAgent(resultsSummary.getBuildAgentId());
+		BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getPlanResultKey());
 		if( buildAgent != null && ! AgentType.LOCAL.equals(buildAgent.getType()))
 		{
 			for(TaskDefinition taskDefinition : buildContext.getTaskDefinitions() )
@@ -49,25 +57,29 @@ public class ScriptEngineBuildProcessorServer
 				if( ScriptEngineConstants.PLUGIN_KEY.equals(taskDefinition.getPluginKey()))
 				{
 					configurationInit(taskDefinition.getConfiguration());
-
-					SimpleScriptContext ssc = new SimpleScriptContext();
-					ssc.setAttribute("buildContext", buildContext, SimpleScriptContext.ENGINE_SCOPE);
-
-					try
+					
+					if( scriptRunOnServer != null && "true".equalsIgnoreCase(scriptRunOnServer) )
 					{
-						if ("FILE".equals(scriptLocation))
+						SimpleScriptContext ssc = new SimpleScriptContext();
+						ssc.setAttribute("buildContext", buildContext, ScriptContext.ENGINE_SCOPE);
+						ssc.setAttribute("buildLogger", buildLogger, ScriptContext.ENGINE_SCOPE);
+	
+						try
 						{
-							this.executeScript(scriptFile, scriptLanguage, ssc, true);
+							if ("FILE".equals(scriptLocation))
+							{
+								this.executeScript(scriptFile, scriptLanguage, ssc, true);
+							}
+							else
+							{
+								this.executeScript(scriptBody, scriptLanguage, ssc, false);
+							}
 						}
-						else
+						catch (Exception e)
 						{
-							this.executeScript(scriptBody, scriptLanguage, ssc, false);
+							buildContext.getCurrentResult().setBuildState(BuildState.FAILED);
+							buildLogger.addErrorLogEntry("Script Execution Failed.",e);
 						}
-					}
-					catch (Exception e)
-					{
-						buildContext.getCurrentResult().setBuildState(BuildState.FAILED);
-						buildContext.getCurrentResult().getBuildErrors().add("Script Execution Failed." + e.getMessage());
 					}
 				}
 			}

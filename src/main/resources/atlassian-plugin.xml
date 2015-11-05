@@ -14,7 +14,7 @@
 		<resource type="freemarker" name="view" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/templates/scriptEngineTaskView.ftl" />
 		<resource type="download" name="icon" location="com/trusolve/atlassian/bamboo/plugins/scriptengine/images/scriptEngineLogo.png" />
 	</taskType>
-	<buildProcessorServer key="scriptEngineBuildProcessorServer" name="Label Expiration Build Processor Server" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineBuildProcessorServer">
+	<buildProcessorServer key="scriptEngineBuildProcessorServer" name="Script Engine Build Processor Server" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.ScriptEngineBuildProcessorServer">
 		<skipIfFailed>false</skipIfFailed>
 		<description>Executes a script on the server at the end of a build.</description>
 	</buildProcessorServer>
