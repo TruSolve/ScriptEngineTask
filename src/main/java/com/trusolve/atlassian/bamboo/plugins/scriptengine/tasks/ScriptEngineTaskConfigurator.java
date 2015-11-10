@@ -14,9 +14,13 @@
 */
 package com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +54,7 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 		super.populateContextForCreate(context);
 		context.put(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE, "js");
 		context.put(ScriptEngineConstants.SCRIPTENGINE_LOCATIONTYPES, getLocationTypes());
+		context.put(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPES, getScriptEngines());
 		log.debug("Populated context for create");
 	}
 
@@ -66,6 +71,7 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 		super.populateContextForEdit(context, taskDefinition);
 		taskConfiguratorHelper.populateContextWithConfiguration(context, taskDefinition, FIELDS);
 		context.put(ScriptEngineConstants.SCRIPTENGINE_LOCATIONTYPES, getLocationTypes());
+		context.put(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPES, getScriptEngines());
 	}
 
 	public List<PairType> getLocationTypes()
@@ -75,6 +81,20 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 		return Lists.newArrayList(new PairType[] { inline, file });
 	}
 
+	public List<PairType> getScriptEngines()
+	{
+		List<PairType> r = new ArrayList<PairType>();
+		ScriptEngineManager factory = new ScriptEngineManager();
+		for( ScriptEngineFactory sef : factory.getEngineFactories() )
+		{
+			for( String n : sef.getNames() )
+			{
+				r.add( new PairType( n, n) );
+			}
+		}
+		return r;
+	}
+	
 	@NotNull
 	@Override
 	public Map<String, String> generateTaskConfigMap(@NotNull ActionParametersMap params, @Nullable TaskDefinition previousTaskDefinition)
