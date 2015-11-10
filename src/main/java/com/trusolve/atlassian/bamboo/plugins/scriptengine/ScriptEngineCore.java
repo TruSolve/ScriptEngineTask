@@ -233,6 +233,7 @@ abstract public class ScriptEngineCore
 
 	protected void configurationInit(Map<String, String> config)
 	{
+		log.debug("Entering configuration");
 		scriptRunOnServer = config.get(ScriptEngineConstants.SCRIPTENGINE_RUNONSERVER);
 		scriptLanguage = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE);
 		scriptBody = config.get(ScriptEngineConstants.SCRIPTENGINE_SCRIPTBODY);

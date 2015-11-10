@@ -15,15 +15,11 @@ limitations under the License.
 
 package com.trusolve.atlassian.bamboo.plugins.scriptengine;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
 import javax.script.SimpleScriptContext;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,15 +27,8 @@ import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.builder.BuildState;
 import com.atlassian.bamboo.deployments.execution.events.DeploymentFinishedEvent;
 import com.atlassian.bamboo.deployments.results.DeploymentResult;
-import com.atlassian.bamboo.deployments.results.service.DeploymentResultService;
-import com.atlassian.bamboo.labels.Label;
-import com.atlassian.bamboo.plan.PlanResultKey;
-import com.atlassian.bamboo.resultsummary.ResultsSummary;
-import com.atlassian.bamboo.resultsummary.ResultsSummaryCriteria;
-import com.atlassian.bamboo.resultsummary.ResultsSummaryManager;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.event.api.EventListener;
-import com.atlassian.sal.api.transaction.TransactionCallback;
 
 public class ScriptEngineEventListener
 	extends ScriptEngineCore
@@ -49,10 +38,11 @@ public class ScriptEngineEventListener
 	@EventListener
 	public void handleDeploymentScripts(DeploymentFinishedEvent deploymentFinishedEvent)
 	{
+		log.debug("Entering deployment finished.");
 		DeploymentResult deploymentResult = deploymentResultService.getDeploymentResult(deploymentFinishedEvent.getDeploymentResultId());
 		for(TaskDefinition taskDefinition : deploymentResult.getEnvironment().getTaskDefinitions())
 		{
-			if( ScriptEngineConstants.PLUGIN_KEY.equals(taskDefinition.getPluginKey()))
+			if( taskDefinition.isEnabled() && ScriptEngineConstants.PLUGIN_KEY.equals(taskDefinition.getPluginKey()))
 			{
 				executeScript(taskDefinition.getConfiguration(), deploymentFinishedEvent.getDeploymentResultId(), deploymentResult);
 			}
