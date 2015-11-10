@@ -25,17 +25,11 @@ import com.atlassian.bamboo.agent.AgentType;
 import com.atlassian.bamboo.build.CustomBuildProcessorServer;
 import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.builder.BuildState;
-import com.atlassian.bamboo.plan.PlanResultKey;
 import com.atlassian.bamboo.resultsummary.ResultsSummary;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.v2.build.agent.BuildAgent;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class ScriptEngineBuildProcessorServer
 	extends ScriptEngineCore
@@ -45,9 +39,11 @@ public class ScriptEngineBuildProcessorServer
 	
 	private BuildContext buildContext = null;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public BuildContext call() throws InterruptedException, Exception
 	{
+		log.debug("Entering build processor server.");
 		ResultsSummary resultsSummary = resultsSummaryManager.getResultsSummary(buildContext.getPlanResultKey());
 		BuildAgent buildAgent = agentManager.getAgent(resultsSummary.getBuildAgentId());
 		BuildLogger buildLogger = buildLoggerManager.getLogger(buildContext.getPlanResultKey());
@@ -55,7 +51,7 @@ public class ScriptEngineBuildProcessorServer
 		{
 			for(TaskDefinition taskDefinition : buildContext.getTaskDefinitions() )
 			{
-				if( ScriptEngineConstants.PLUGIN_KEY.equals(taskDefinition.getPluginKey()))
+				if( taskDefinition.isEnabled() && ScriptEngineConstants.PLUGIN_KEY.equals(taskDefinition.getPluginKey()))
 				{
 					configurationInit(taskDefinition.getConfiguration());
 					

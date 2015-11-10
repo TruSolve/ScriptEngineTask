@@ -38,6 +38,7 @@ public class ScriptEngineTask
 	
 	public TaskResult execute(CommonTaskContext taskContext) throws TaskException
 	{
+		log.debug("Entering execute");
 		final TaskResultBuilder builder = TaskResultBuilder.newBuilder(taskContext);
 		final BuildLogger buildLogger = taskContext.getBuildLogger();
 

@@ -50,6 +50,7 @@ public class ScriptEngineTaskConfigurator extends AbstractTaskConfigurator
 		super.populateContextForCreate(context);
 		context.put(ScriptEngineConstants.SCRIPTENGINE_SCRIPTTYPE, "js");
 		context.put(ScriptEngineConstants.SCRIPTENGINE_LOCATIONTYPES, getLocationTypes());
+		log.debug("Populated context for create");
 	}
 
 	@Override
