@@ -9,8 +9,8 @@
     <version>1.0.1-SNAPSHOT</version>
 
     <organization>
-        <name>Example Company</name>
-        <url>http://www.example.com/</url>
+        <name>TruSolve LLC</name>
+        <url>http://www.trusolve.com</url>
     </organization>
 
     <name>ScriptEngine</name>
@@ -119,4 +119,15 @@
         </pluginManagement>
     </build>
     <artifactId>ScriptEngine</artifactId>
+    <url>https://github.com/prestongilchrist/ScriptEngineTask</url>
+    <scm>
+    	<connection>scm:git:https://github.com/prestongilchrist/ScriptEngineTask.git</connection>
+    	<url>https://github.com/prestongilchrist/ScriptEngineTask.git</url>
+    	<developerConnection>scm:git:https://github.com/prestongilchrist/ScriptEngineTask.git</developerConnection>
+    	<tag>HEAD</tag>
+    </scm>
+    <issueManagement>
+    	<url>https://github.com/prestongilchrist/ScriptEngineTask/issues</url>
+    	<system>GitHub</system>
+    </issueManagement>
 </project>

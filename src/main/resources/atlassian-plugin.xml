@@ -3,6 +3,8 @@
 		<description>${project.description}</description>
 		<version>${project.version}</version>
 		<vendor name="${project.organization.name}" url="${project.organization.url}" />
+		<param name="plugin-icon">com/trusolve/atlassian/bamboo/plugins/scriptengine/images/scriptEngineLogo.png</param>
+        <param name="plugin-logo">com/trusolve/atlassian/bamboo/plugins/scriptengine/images/scriptEngineLogoUPM.png</param>
 	</plugin-info>
 
 	<taskType key="scriptEngineTask" name="ScriptEngine Task" class="com.trusolve.atlassian.bamboo.plugins.scriptengine.tasks.ScriptEngineTask">
